@@ -1,0 +1,32 @@
+<ion-view view-title="Комментарии">
+  <ion-nav-buttons side="right">
+    <a class="button no_bg icon_color">
+      <i class="icon ion-android-refresh"></i>
+    </a>
+  </ion-nav-buttons>
+  <ion-content class='has-header'>
+      <div ng-repeat="comment in comments.comments.list" class="comment_item">
+        <div class="aboutBaby nclear">
+          <div class="left_side">
+            <img class="img small" ng-src="{{comment.user.files}}">
+          </div>
+          <div class="left_side">
+            <div class="name green_color">{{comment.user.babyName}}</div>
+            <div class="date">{{comment.date.toString("d MMMM yyyy")}}</div>
+          </div>
+        </div>
+        <div class="description">
+          {{comment.text}}
+        </div>
+
+      </div>
+  </ion-content>
+  <fab-button target-id="scrollFabButtonTarget" ng-click="addFormComment();">
+    <i class="icon ion ion-android-create"></i>
+  </fab-button>
+  <!--
+  <div class="bar bar-footer bar-stable">
+    <a href="#/app/blogs/comments/write/{{comments.id}}" class="title">Написать комментарий
+    </a>
+  </div>-->
+</ion-view>

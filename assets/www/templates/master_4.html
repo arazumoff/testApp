@@ -1,0 +1,25 @@
+<ion-view view-title="Данные о прикорме" cache-view="false">
+  <ion-content class="has-header padding">
+    <p class="info">Вы уже начали прикорм и ввели в рацион какие-либо продукты?</p>
+    <ion-list>
+      <ion-radio ng-model="user.feeding_exist" ng-value="0">Да</ion-radio>
+      <ion-radio ng-model="user.feeding_exist" ng-value="1">Нет</ion-radio>
+      <ion-item class="sub" ng-if="user.feeding_exist != 0">
+      Хотите начать прикорм?
+      </ion-item>
+      <ion-radio ng-if="user.feeding_exist != 0" ng-model="user.feeding_exist" ng-value="2">Хочу</ion-radio>
+      <ion-radio ng-if="user.feeding_exist != 0" ng-model="user.feeding_exist" ng-value="3">Не хочу</ion-radio>
+    </ion-list>
+  </ion-content>
+  <ion-footer-bar align-title="center" class="bar-stable bar bar-footer">
+    <a ng-click="saveGame();" ng-if="user.feeding_exist == 0" href="#/master/step_5" class="button button-full title  button-stable">
+      Продолжить
+    </a>
+    <a ng-click="saveGame();" ng-if="user.feeding_exist == 2" href="#/master/step_6" class="button button-full title button-stable">
+      Продолжить
+    </a>
+    <a ng-if="user.feeding_exist == 3" href="#/app/main" ng-click="gofrom4ToMain()" class="button button-full title button-stable">
+      Продолжить
+    </a>
+  </ion-footer-bar>
+</ion-view>

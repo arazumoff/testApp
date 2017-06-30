@@ -1,0 +1,15 @@
+<ion-view view-title="Редактирование">
+  <ion-content class='has-header padding'>
+    <a href="#/app/blogs/{{blog.id}}" class="button button-block button-stable">Отмена</a>
+    <label class="item item-input">
+      <input ng-model="blog.author.babyName" type="text" placeholder="Мама, введите ваше имя">
+    </label>
+    <label class="item item-input">
+      <input ng-model="blog.name" type="text" placeholder="Заголовок темы">
+    </label>
+    <label class="item item-input">
+      <textarea ng-model="blog.text" placeholder="Текст комментария"></textarea>
+    </label>
+    <a href="#/app/blogs/{{blog.id}}" ng-click="addBlog(name, title, text)" class="button button-block button-stable">Ок</a>
+  </ion-content>
+</ion-view>

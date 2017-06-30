@@ -1,0 +1,43 @@
+<ion-view view-title="Блоги" cache-view="false" hide-back-button="true">
+  <ion-header-bar class="bar bar-subheader">
+    <div class="tabs header_bg" style="margin-left:-5px">
+      <a ng-change="updateBlogs();" ng-model="filterBlog" class="tab-item">Последние</a>
+      <a ng-change="updateBlogs();" ng-model="filterBlog" class="tab-item">Популярные</a>
+      <a ng-change="updateBlogs();" ng-model="filterBlog" class="tab-item">С моими комментариями</a>
+    </div>
+  </ion-header-bar>
+  <ion-content class="has-subheader padding10_l_r main_bg">
+    <ion-list>
+      <ion-item ng-repeat="blog in blogs" href="#/app/blogs/{{blog.id}}" class="blog_item">
+        <div class="aboutBaby nclear">
+          <div class="left_side">
+            <img class="img small" ng-src="{{blog.author.files}}">
+          </div>
+          <div class="left_side">
+            <div class="name green_color">{{blog.author.babyName}}</div>
+            <!--<div>{{blog.name}}</div>-->
+            <div class="date">{{blog.date.toString("d MMMM yyyy")}}</div>
+          </div>
+        </div>
+        <div class="photo" ng-if="blog.photo">
+          <img src="{{blog.photo}}">
+        </div>
+        <div class="title">
+          {{blog.name}}
+        </div>
+        <div class="description">
+          {{sliceText(blog.text, 200)}}
+        </div>
+        <div class="blog_foot nclear">
+          <div class="right_side green_color">
+            <div class="count">{{blog.comments.counts}}</div>
+            <i class="icon icon_ic_comment"></i>
+          </div>
+        </div>
+      </ion-item>
+    </ion-list>
+  </ion-content>
+  <fab-button target-id="scrollFabButtonTarget" ng-click="addBlog();">
+    <i class="icon ion ion-android-add"></i>
+  </fab-button>
+</ion-view>

@@ -1,0 +1,20 @@
+<ion-view view-title="Список покупок">
+  <div class="bar bar-subheader bar-stable header_bg subheader_tabs">
+    <div class="button-bar buttons_tabs">
+      <button ng-click="selectPeriod(1)" class="button uppercase" ng-class="{active:period==1}">на сегодня</button>
+      <button ng-click="selectPeriod(2)" class="button uppercase" ng-class="{active:period==2}">на неделю</button>
+      <button ng-click="selectPeriod(3)" class="button uppercase" ng-class="{active:period==3}">на {{count_days_end|declension:['д','ней','ень','ня']}}</button>
+    </div>
+  </div>
+  <ion-content class='has-header has-subheader'>
+    <p class="warn padding">Не забудьте купить с запасом!</p>
+    <ion-list>
+      <ion-item ng-repeat="item in products" ng-click="pushNotificationChange(item);"
+                ng-class="{strike: item.complete ==1, '':item.complete == 0}">
+      <i class="icon" ng-class="{'icon_checkbox_on': item.complete == 1, 'icon_checkbox_off':item.complete == 0}"></i>
+        {{item.name}}
+        <div style="display:inline-block;float:right" ng-class="{strike: item.complete}">{{item.value|round}}г</div>
+       </ion-item>
+    </ion-list>
+  </ion-content>
+</ion-view>

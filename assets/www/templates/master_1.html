@@ -1,0 +1,34 @@
+<ion-view view-title="Анкета" cache-view="false">
+  <ion-content class="has-header padding" scroll="false">
+    <div class="list">
+      <div>
+        <img ng-src="{{user.photo}}" class="img">
+        <input type="file" file-input="files" name="photo" onchange="angular.element(this, $(this).parent()).scope().uploadedFile(this)">
+      </div>
+
+      <div class="row">
+        <div class="gender">
+          <button ng-click="user.sex=0" ng-class="{'active':user.sex==0, '':user.sex != 0}" class="button button-full">Мальчик</button>
+          <button ng-click="user.sex=1" ng-class="{'active':user.sex==1, '':user.sex != 1}" class="button button-full">Девочка</button>
+        </div>
+      </div>
+      <label class="item item-input">
+        <span class="input-label">Имя ребенка</span>
+        <input type="text" ng-model="user.name" placeholder="Например Костя">
+      </label>
+      <label class="item item-input">
+        <span class="input-label">Дата рождения</span>
+        <input ng-model="user.birthday" placeholder="17 сентября 2014" type="date">
+      </label>
+      <label class="item item-input">
+        <span class="input-label">Почта мамы</span>
+        <input ng-model="user.birthday" placeholder="example@example.ru" type="email">
+      </label>
+    </div>
+  </ion-content>
+  <ion-footer-bar align-title="center" class="bar-stable bar bar-footer">
+    <a ng-click="saveGame();" ng-class="{'disabled':  user.sex === false || !user.birthday || !user.name}" href="#/master/step_2" class="button button-stable title">
+      Продолжить
+    </a>
+  </ion-footer-bar>
+</ion-view>

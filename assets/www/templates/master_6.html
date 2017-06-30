@@ -1,0 +1,43 @@
+<ion-view view-title="Данные о прикорме" cache-view="false">
+  <ion-header-bar align-title="center" class="bar-positive">
+    <div class="tabs tabs-top tabs-background-positive">
+      <a ng-repeat="item in category" ng-click="chooseCat5(item.id);" class="tab-item sub_m">{{item.name+' '+ item.count}}</a>
+    </div>
+  </ion-header-bar>
+  <ion-content class='has-header has-subheader padding'>
+    <p class="info">Отметьте новые продукты, которые вы планируете ввести и выберете желаемый прием пищи</p>
+    <div class="list">
+        <div class="item item-input item-select" ng-if="item.ext_category == chCat" ng-repeat="item in products">
+          <div class="input-label">
+            <span ng-if="item.name != ''">
+              <i class="icon ion-checkmark-circled"></i>
+              {{item.name}}
+            </span>
+            <div>
+              <form name="myForm">
+                <input ng-show="item.name == ''" ng-model="newNameProd" type="text" maxlength="15" required>
+                <div class="button-bar">
+                  <button ng-show="item.name == ''"
+                          ng-disabled="myForm.$invalid"
+                          ng-click="item.name=newNameProd"
+                          class="button button-full button-positive">Готово</button>
+                  <button type="button"
+                          ng-show="item.name == ''"
+                          ng-click="cancelAddNew(item);"
+                          class="button button-full button-positive">X</button>
+                </div>
+              </form>
+            </div>
+          </div>
+          <select
+            ng-model="item.feeding_time"
+            ng-options="time as time.name for time in ProductFeedingTime"
+            ng-change="onChange(item)"></select>
+        </div>
+      <button ng-click="addNew();" class="button">+ Добавить еще продукт</button>
+    </div>
+  </ion-content>
+    <ion-footer-bar align-title="center" class="bar-stable bar bar-footer green_footer">
+      <a href="" ng-click="save();" class="button button-full title button-stable">Продолжить</a>
+    </ion-footer-bar>
+</ion-view>

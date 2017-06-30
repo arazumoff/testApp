@@ -1,0 +1,448 @@
+<ion-view view-title="{{day.toString('d MMMM')}}" hide-back-button="true" cache-view="false">
+  <ion-nav-buttons side="left">
+    <button class="button button-icon button-clear ion-navicon" menu-toggle="left"></button>
+    <button class="button" ng-click="changeDay('ye');">
+      <i class="icon ion-chevron-left icon_color"></i>
+    </button>
+  </ion-nav-buttons>
+  <ion-nav-buttons side="right">
+    <button class="button" ng-click="changeDay('tm');">
+      <i class="icon ion-chevron-right icon_color"></i>
+    </button>
+    <a class="button no_bg icon_color" href="#/app/calendar">
+      <i class="icon ion-calendar"></i>
+    </a>
+  </ion-nav-buttons>
+  <!--
+  <ion-header-bar class="bar bar-subheader calendar-subheader">
+    <linki-calendar-android month="month"></linki-calendar-android>
+  </ion-header-bar>
+  -->
+  <ion-content class="has-header padding main_bg">
+    <ion-list>
+      <div ng-repeat="itemGrp in times">
+        <div class="item item-divider item-title-menu" ng-click="changeGroupName(itemGrp);">
+          <span class="name">
+            <span ng-if="itemGrp.name">{{itemGrp.name}}</span>
+            <span ng-if="!itemGrp.name">Кормление</span>
+            &mdash;
+          </span>
+          <span class="time">{{itemGrp.timer_time}}</span>
+        </div>
+
+        <div class="block_items">
+          <div ng-repeat="item in itemGrp.items" ng-switch on="item.type" ng-if="item.deleted!=1">
+            <div ng-switch-when="1">
+              <div ng-include="'typeOne.html'"></div>
+            </div>
+            <div ng-switch-when="2">
+              <div ng-include="'typeTwo.html'"></div>
+            </div>
+            <div ng-switch-when="3">
+              <div ng-include="'typeOne.html'"></div>
+              <div ng-include="'typeTwo.html'"></div>
+            </div>
+            <div ng-switch-default>
+              <div ng-include="'typeDefault.html'"></div>
+            </div>
+          </div>
+          <ion-item ng-click="addNewInMain(itemGrp);" class="green_color">+ Добавить свой подукт</ion-item>
+        </div>
+      </div>
+    </ion-list>
+    <div class="row row-center" ng-if="times.length == 0">
+      <div class="col col-60 col-offset-0">
+        <div class="empty_history">
+          <div class="empty_product_history_big">
+            У вас создано меню до ближайшего дня рождения малыша, т.к. каждый месяц возрастные нормы приема пищи меняются.
+            Позднее вам будет предложено сформировать новое меню
+          </div>
+        </div>
+      </div>
+    </div>
+  </ion-content>
+  <fab-button target-id="scrollFabButtonTarget" ng-click="clickMagic();">
+    <i class="icon ion ion-android-add"></i>
+  </fab-button>
+  <div class="magic" ng-if="isMagic">
+    <div ng-click="addEating();">Добавить приём пищи</div>
+    <div ng-click="addFeed();" class="bottom">Добавить кормление</div>
+  </div>
+</ion-view>
+
+<script id="typeOne.html" type="text/ng-template">
+  <ion-item ng-click="myValue=!myValue" class="item-menu">
+  <i class="icon" ng-class="{
+    'icon_checkbox_on': item.complete && item.part,
+    'icon_checkbox_off': (!item.complete && !item.part) || !item.complete || !item.part}"></i>
+  <span>
+    Грудь
+    <span ng-if="item.part==1" class="info">Левая</span>
+    <span ng-if="item.part==2" class="info">Правая</span>
+  </span>
+  <span class="right_side">
+    {{item.value}}
+  </span>
+  <div ng-hide="myValue != 1">
+    <div class="row">
+      <div class="col col-40">
+        <button
+          ng-class="{'active' : item.part==1, '': item.part != 1}"
+          ng-click="setPart($event, item, 1);"
+          class="button button-full btn_round">Левая</button>
+      </div>
+      <div class="col col-40">
+        <button
+          ng-class="{'active' : item.part==2, '': item.part != 2}"
+          ng-click="setPart($event, item, 2);"
+          class="button button-full btn_round">Правая</button>
+      </div>
+      <div class="col col-20">
+        <a ng-click="openPopupTime($event, item);" class="green_color uppercase time_btn">Время</a>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col col-33 text-center icon_btn green_color" ng-click="openCommentPopup($event, item);">
+        <i class="icon ico icon_comment"></i> комментарий</div>
+      <div class="col col-33 text-center icon_btn green_color" ui-sref="app.product-detail({prodId:item.rowid})">
+        <i class="icon ico icon_info"></i>о продукте
+      </div>
+      <div class="col col-33 text-center icon_btn" ng-click="deleteItem($event, $index, item, itemGrp);">
+        <i class="icon ico icon_delete"></i> удалить</div>
+    </div>
+  </div>
+  </ion-item>
+</script>
+
+<script id="typeTwo.html" type="text/ng-template">
+  <ion-item ng-click="myValue=!myValue" class="item-menu">
+  <i class="icon" ng-class="{'icon_checkbox_on':
+    item.complete && item.amount,
+    'icon_checkbox_off': (!item.complete && !item.amount) || (item.complete && !item.amount)}"></i>
+  <span>Бутылочка</span>
+  <span class="right_side">
+    <span ng-if="item.amount">{{item.amount}} г.</span>
+  </span>
+  <div ng-hide="myValue != 1">
+    <div class="row">
+      <div class="col col-33 text-center icon_btn light_green_color" ng-click="feedPopup($event, item);">
+        <i class="icon ico icon_check"></i> покормить</div>
+      <div class="col col-33 text-center icon_btn green_color" ng-click="openCommentPopup($event, item);">
+        <i class="icon ico icon_comment"></i> комментарий</div>
+      <div class="col col-33 text-center icon_btn green_color" ui-sref="app.product-detail({prodId:item.rowid})">
+        <i class="icon ico icon_info"></i>о продукте
+      </div>
+    </div>
+    <div class="row">
+      <div class="col col-33 col-offset-33 text-center icon_btn red_color" ng-click="deleteItem($event, $index, item, itemGrp);">
+        <i class="icon ico icon_delete"></i>удалить</div>
+    </div>
+  </div>
+  </ion-item>
+</script>
+
+<script id="typeDefault.html" type="text/ng-template">
+  <ion-item ng-click="myValue =! myValue" class="item-menu">
+  <span class="left_side">
+    <i class="icon" ng-class="{'icon_checkbox_on': item.complete, 'icon_checkbox_off':!item.complete}"></i>
+    <span ng-class="{'is_new': item.added == 'false'}">
+    {{item.name}} {{item.type}}
+  </span>
+  <span class="icons">
+    <i ng-show="item.status != null" class="icon"
+       ng-class="{'icon_status_new': item.is_new == 1}"></i>
+    <i ng-show="item.status != null" class="icon"
+    ng-class="{
+    'icon_status_bad':item.status == 1,
+    'icon_status_unknow': item.status == 2}"></i>
+    <i ng-if="item.comment != null" class="icon icon_ic_comment_gray"></i>
+    </span>
+    </span>
+    <span class="right_side">
+      <span ng-if="item.amount">{{item.amount|round}} г.</span>
+    </span>
+  <div ng-hide="myValue != 1">
+    <div class="row">
+    <div class="col col-33 text-center icon_btn light_green_color" ng-click="feedPopup($event, item);">
+    <i class="icon ico icon_check"></i>покормить</div>
+    <div class="col col-33 text-center icon_btn green_color" ng-click="changeProductPopup($event, item);">
+    <i class="icon ico icon_replace"></i>заменить</div>
+    <div class="col col-33 text-center icon_btn green_color" ng-click="setStatus($event, item);">
+    <i class="icon ico icon_status"></i>статус</div>
+    </div>
+    <div class="row">
+    <div class="col col-33 text-center icon_btn green_color" ng-click="openCommentPopup($event, item);">
+    <i class="icon ico icon_comment"></i>комментарий</div>
+    <div class="col col-33 text-center icon_btn green_color" ui-sref="app.product-detail({prodId:item.rowid})">
+    <i class="icon ico icon_info"></i>о продукте
+  </div>
+  <div class="col col-33 text-center icon_btn red_color" ng-click="deleteItem($event, $index, item, itemGrp);">
+    <i class="icon ico icon_delete"></i>удалить</div>
+    </div>
+    </div>
+  </ion-item>
+</script>
+
+<script id="addFeed.html" type="text/ng-template">
+  <ion-modal-view>
+    <ion-header-bar>
+      <div class="buttons">
+        <a class="button no_bg icon_color" ng-click="modal.hide();"><i class="icon ion-close"></i></a>
+      </div>
+      <h1 class="title">Кормление</h1>
+      <div class="buttons">
+        <a class="button no_bg icon_color uppercase" ng-click="addFeedComplete();">Добавить</a>
+      </div>
+    </ion-header-bar>
+    <ion-content>
+      <div class="padding10">
+        <ion-radio ng-model="data.type" ng-value="'A'">грудное</ion-radio>
+        <ion-radio ng-model="data.type" ng-value="'B'">искусственное</ion-radio>
+        <ion-radio ng-model="data.type" ng-value="'C'">смешанное
+          <div class="sub">Грудное и искусственное</div></ion-radio>
+      </div>
+      <div class="padding">
+        <div class="left_side">Время приёма</div>
+        <div class="right_side">
+          <input class="sub_inp_3" ng-model="data.time" type="time">
+        </div>
+      </div>
+    </ion-content>
+  </ion-modal-view>
+</script>
+
+<script id="addEating.html" type="text/ng-template">
+  <ion-modal-view>
+    <ion-header-bar>
+      <div class="buttons">
+        <a class="button no_bg icon_color" ng-click="modal.hide();"><i class="icon ion-close"></i></a>
+      </div>
+      <h1 class="title">Приём пищи</h1>
+      <div class="buttons">
+        <a class="button no_bg icon_color uppercase" ng-click="addEatingComplete();">Добавить</a>
+      </div>
+    </ion-header-bar>
+    <ion-content>
+      <div class="padding10">
+      <ion-radio ng-model="data.var" ng-value="item" ng-repeat="item in eating_times">{{item.name}}</ion-radio>
+      </div>
+      <div class="padding">
+        <div class="left_side">Время приёма</div>
+        <div class="right_side">
+          <input class="sub_inp_3" ng-model="data.time" type="time">
+        </div>
+      </div>
+    </ion-content>
+  </ion-modal-view>
+</script>
+
+
+<script id="feedTpl.html" type="text/ng-template">
+  <ion-list>
+    <ion-radio ng-repeat="iter in variants" value="{{iter}}" ng-click="setFeed(iter);">{{iter}} г. </ion-radio>
+  </ion-list>
+</script>
+
+<script id="statusTpl.html" type="text/ng-template">
+  <ion-list>
+    <ion-radio ng-click="selectStatus(1);">Реакция
+      <span class="icons"><i class="icon icon_status_bad"></i></span></ion-radio>
+    <ion-radio ng-click="selectStatus(2);">Сомнительный
+      <span class="icons"><i class="icon icon_status_unknow"></i></span></ion-radio>
+    <ion-radio ng-click="selectStatus(3);">Нормальный</ion-radio>
+  </ion-list>
+</script>
+
+<script id="feedPopup.html" type="text/ng-template">
+  <ion-modal-view>
+    <ion-content>
+      <h2 class="text-center"><i class="icon ion-checkmark-circled"></i></h2>
+      <p class="text-center">{{item.name}}</p>
+      <div>
+        <div class="left_side">
+          <a href="" ng-click="modal.hide();">Отмена</a>
+        </div>
+        <div class="right_side">
+          <a href="" ng-click="okFeed(value);">ОК</a>
+        </div>
+      </div>
+      <div class="clearfix">
+        <label class="item item-input item-select">
+          <div class="input-label">Количество грамм</div>
+          <select ng-model="value">
+            <option ng-repeat="iter in variants" value="{{iter}}">{{iter}} г.</option>
+          </select>
+        </label>
+      </div>
+    </ion-content>
+  </ion-modal-view>
+</script>
+
+<script id="addComment.html" type="text/ng-template">
+  <ion-modal-view>
+    <ion-header-bar>
+      <div class="buttons">
+        <a class="button no_bg icon_color" ng-click="modal.hide();"><i class="icon ion-close"></i></a>
+      </div>
+      <h1 class="title">Комментарий</h1>
+      <div class="buttons">
+        <a href="" ng-click="savePopupComment();" class="button no_bg icon_color">ОТПРАВИТЬ</a>
+      </div>
+    </ion-header-bar>
+    <ion-content class="padding">
+      <textarea placeholder="Текст комментария" ng-model="item.comment" style="width: 100%;height: 100%"></textarea>
+    </ion-content>
+  </ion-modal-view>
+</script>
+
+<script id="changeProduct.html" type="text/ng-template">
+  <ion-modal-view>
+    <ion-header-bar>
+      <div class="buttons">
+        <a class="button no_bg icon_color" ng-click="modal.hide();"><i class="icon ion-close"></i></a>
+      </div>
+      <h1 class="title">Замена</h1>
+      <div class="buttons">
+        <a class="button no_bg icon_color" ng-click="changeComplete();">ГОТОВО</a>
+      </div>
+    </ion-header-bar>
+    <ion-content>
+      <p class="info padding">Вы хотите заменить “Овсяна каша” на ужин.
+        Укажите замену.</p>
+      <div class="hr_shadow"></div>
+      <ul class="list padding">
+        <li class="item">
+          <ion-radio ng-model="choice.data" ng-value="iter"
+                     ng-repeat="iter in changeList">{{iter.name}} {{iter.rowid}}</ion-radio>
+        </li>
+      </ul>
+    </ion-content>
+  </ion-modal-view>
+</script>
+
+<script id="changeGroupNameTpl.html" type="text/ng-template">
+  <ion-modal-view>
+    <ion-header-bar>
+      <div class="buttons">
+        <a class="button no_bg icon_color" ng-click="modal.hide();"><i class="icon ion-close"></i></a>
+      </div>
+      <h1 class="title"></h1>
+      <div class="buttons ">
+        <a class="button no_bg icon_color" ng-click="changeGroupNameComplete();">ГОТОВО</a>
+      </div>
+    </ion-header-bar>
+    <ion-content class="padding">
+      <div class="row">
+        <div class="col">
+          <ion-md-input placeholder="Приём пищи" id="form_group_name" type="text" name="name"
+            highlight-color="energized" ng-model="data.name"></ion-md-input>
+        </div>
+      </div>
+      <br>
+      <div class="row">
+        <div class="col col-50">
+          Время приема
+        </div>
+        <div>
+          <input class="sub_inp_3" ng-model="data.time" type="time">
+        </div>
+      </div>
+    </ion-content>
+  </ion-modal-view>
+</script>
+
+<script id="selectTime.html" type="text/ng-template">
+  <div class="row">
+    <div class="col">
+      <button class="button" ng-click="up('start_hour', 23);"><i class="icon ion-chevron-up"></i></button>
+      <div class="text-center val">{{data.start_hour}}</div>
+      <button class="button" ng-click="down('start_hour', 23);"><i class="icon ion-chevron-down"></i></button>
+    </div>
+
+    <div class="col" style="padding:50px 0px 0px 0px;font-size:24px">:</div>
+
+    <div class="col">
+      <button class="button" ng-click="up('start_minuts', 59);"><i class="icon ion-chevron-up"></i></button>
+      <div class="text-center val">{{data.start_minuts}}</div>
+      <button class="button" ng-click="down('start_minuts', 59);"><i class="icon ion-chevron-down"></i></button>
+    </div>
+
+    <div class="col text-center" style="padding:50px 0px 0px 0px;font-size:24px">&mdash;</div>
+
+    <div class="col">
+      <button class="button" ng-click="up('stop_hour', 23);"><i class="icon ion-chevron-up"></i></button>
+      <div class="text-center val">{{data.stop_hour}}</div>
+      <button class="button" ng-click="down('stop_hour', 59);"><i class="icon ion-chevron-down"></i></button>
+    </div>
+
+    <div class="col" style="padding:50px 0px 0px 0px;font-size:24px">:</div>
+
+    <div class="col">
+      <button class="button" ng-click="up('stop_minuts', 59);"><i class="icon ion-chevron-up"></i></button>
+      <div class="text-center val">{{data.stop_minuts}}</div>
+      <button class="button" ng-click="down('stop_minuts', 59);"><i class="icon ion-chevron-down"></i></button>
+    </div>
+  </div>
+</script>
+
+<script id="addOwnProduct.html" type="text/ng-template">
+  <ion-modal-view>
+    <ion-header-bar>
+      <div class="buttons">
+        <a class="button no_bg icon_color" ng-click="modal.hide();"><i class="icon ion-close"></i></a>
+      </div>
+      <h1 class="title">Свой продукт</h1>
+      <div class="buttons">
+        <a class="button no_bg icon_color uppercase" ng-click="addOwnProductComplete();">Добавить</a>
+      </div>
+    </ion-header-bar>
+    <ion-content>
+      <div class="row">
+        <div class="col-75">
+          <ion-md-input placeholder="Название продукта" id="own_product_name" type="text" name="name"
+                        ng-keyup="search();"
+                        highlight-color="energized" ng-model="data.name"></ion-md-input>
+        </div>
+        <div class="col-25 col-center">
+          <button class="green_color uppercase button" ng-click="viewProducts();">Список</button>
+        </div>
+      </div>
+      <br>
+      <div class="row">
+        <div class="col">
+          <div>
+            <div class="sub info">Категория продукта</div>
+            <div ng-click="viewCategories();">
+              <span ng-if="data.selectedCategory== null">Выбрать</span>
+              <span ng-if="data.selectedCategory != null">{{data.selectedCategory.name}}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <br>
+      <div class="row">
+        <div class="col custom-select">
+          <div class="sub info">Прием пищи</div>
+          <div ng-click="setTimeClickOpen();">
+            <span ng-if="data.time == null">Выбрать</span>
+            <span ng-if="data.time != null">{{data.time}}</span>
+          </div>
+          <div class="open-selector-time" ng-if="isOpenSelectorTime==true">
+            <div ng-repeat="time in ProductFeedingTime"
+                 ng-click="setTimeCustom(time);">{{time.name}}</div>
+          </div>
+        </div>
+      </div>
+    </ion-content>
+  </ion-modal-view>
+</script>
+
+<script id="popupProductList.html" type="text/ng-template">
+  <ion-radio
+    ng-model="data.selectedProduct"
+    ng-repeat="item in product_list" ng-value="item">{{item.name}}</ion-radio>
+</script>
+
+<script id="popupCategoryList.html" type="text/ng-template">
+  <ion-radio ng-model="data.selectedCategory" ng-repeat="item in category_list" ng-value="item">{{item.name}}</ion-radio>
+</script>

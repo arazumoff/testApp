@@ -1,0 +1,21 @@
+<ion-view view-title="Вид вскармливания ребёнка" cache-view="false">
+  <ion-content class="has-header padding">
+    <p class="info">Отметьте вид вскармливания вашего ребенка</p>
+
+    <ion-radio ng-model="user.feeding_type" ng-value="'A'">грудное</ion-radio>
+    <ion-radio ng-model="user.feeding_type" ng-value="'B'">искусственное</ion-radio>
+    <ion-radio ng-model="user.feeding_type" ng-value="'C'">смешанное <div class="sub">(грудное + искусственное)</div></ion-radio>
+    <ion-radio ng-model="user.feeding_type" ng-value="'D'">Отсутствует</ion-radio>
+
+  </ion-content>
+  <ion-footer-bar align-title="center" class="bar-stable bar bar-footer">
+    <a ng-click="saveGame();" ng-if="user.feeding_type != 'D'"
+       ng-class="{'disabled': !user.feeding_type}" href="#/master/step_3" class="button title button-full button-stable">
+      Продолжить
+    </a>
+    <a ng-click="saveGame();" ng-if="user.feeding_type == 'D'"
+       ng-class="{'disabled': !user.feeding_type}" href="#/master/step_4" class="button titlebutton-full button-stable">
+      Продолжить
+    </a>
+  </ion-footer-bar>
+</ion-view>

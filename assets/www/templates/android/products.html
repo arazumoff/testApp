@@ -1,0 +1,26 @@
+<ion-view view-title="Продукты" cache-view="false" hide-back-button="true">
+  <div class="bar bar-subheader bar-stable header_bg">
+
+    <div class="button-bar">
+      <button
+        ng-repeat="item in statusProd"
+        ng-click="chooseProds(item.id)"
+        class="button header_bg icon_color uppercase" ng-class="{active:item.id==pp}">{{item.name}}</button>
+    </div>
+    <div class="hr_shadow"></div>
+  </div>
+  <ion-content class='has-header has-subheader'>
+    <p ng-if="pp == 1" class="info padding">Сомнительные продукты, которые могли вызвать какую-либо реакцию у малыша.</p>
+    <p ng-if="pp == 2" class="info padding">Продукты с реакцией не подошли вашему ребенку и/или вызвали реакцию.</p>
+    <p ng-if="pp == 3" class="info padding">Список уже введенных в рацион продуктов.</p>
+    <div class="hr_shadow"></div>
+    <ion-list>
+      <ion-item href="#/app/products/{{item.rowid}}" ng-repeat="item in productsSort">
+        {{item.name}}
+      </ion-item>
+      <ion-item ng-if="productsSort.length == 0">
+        Продукты не найдены
+      </ion-item>
+    </ion-list>
+  </ion-content>
+</ion-view>

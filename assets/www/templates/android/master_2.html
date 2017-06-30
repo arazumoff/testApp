@@ -1,0 +1,29 @@
+<ion-view view-title="Вид вскармливания ребёнка" cache-view="false" hide-back-button="true">
+  <ion-content class="has-header">
+    <p class="info padding">Отметьте вид вскармливания вашего ребёнка</p>
+
+    <div class="padding10">
+      <ion-radio ng-model="user.feeding_type" ng-value="'A'">Грудное</ion-radio>
+      <ion-radio ng-model="user.feeding_type" ng-value="'B'">Искусственное</ion-radio>
+      <ion-radio ng-model="user.feeding_type" ng-value="'C'">Смешанное <div class="sub">Грудное и искусственное</div></ion-radio>
+      <ion-radio ng-model="user.feeding_type" ng-value="'D'">Отсутствует</ion-radio>
+    </div>
+
+  </ion-content>
+  <ion-footer-bar align-title="center" class="bar-stable bar bar-footer">
+    <button ng-click="saveAndGo('master/step_1');" class="left_side pull-left button button-stable green_color">
+      <i class="icon ion-chevron-left"></i> НАЗАД
+    </button>
+
+    <progress-bar step="2" total-step="7"></progress-bar>
+
+    <button ng-click="saveAndGo('master/step_3');" ng-if="user.feeding_type != 'D'"
+       ng-class="{'disabled': !user.feeding_type}" href="" class="green_color right_side pull-right button button-stable">
+      ДАЛЕЕ <i class="icon ion-chevron-right"></i>
+    </button>
+    <button ng-click="saveAndGo('master/step_4');" ng-if="user.feeding_type == 'D'"
+       ng-class="{'disabled': !user.feeding_type}" class="green_color right_side pull-right button button-stable">
+      ДАЛЕЕ <i class="icon ion-chevron-right"></i>
+    </button>
+  </ion-footer-bar>
+</ion-view>

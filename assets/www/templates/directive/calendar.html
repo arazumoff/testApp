@@ -1,0 +1,21 @@
+<table width="100%" class="calendar">
+  <tr>
+    <th>Пн</th>
+    <th>Вт</th>
+    <th>Ср</th>
+    <th>Чт</th>
+    <th>Пт</th>
+    <th>Сб</th>
+    <th>Вс</th>
+  </tr>
+
+<tr ng-repeat="week in weeks">
+  <td class="day"
+        ng-class="{ today: day.isToday, 'different-month': !day.isCurrentMonth, selected: day.date.isSame(selected) }"
+        ng-repeat="day in week.days"><a ui-sref="app.main({date:day.str})">{{day.number}}</a>
+  <span ng-if="day.status" class="statuses">
+    <span class="status_{{status}}" ng-repeat="status in day.status"></span>
+  </span>
+  </td>
+</tr>
+</table>

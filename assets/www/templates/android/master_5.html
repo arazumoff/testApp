@@ -1,0 +1,95 @@
+<ion-view view-title="Выбор введённых продуктов" cache-view="false" hide-back-button="true">
+  <ion-content class="has-header master5">
+    <div class="info padding clearfix">Отметьте продукты, которые вы ранее ввели в рацион ребенка и выберете желаемый прием пищи,
+      в который его необходимо включить</div>
+    <div style="overflow: hidden;position: relative;clear:both;height:44px">
+      <linki-tabs>
+        <linki-tab-item ng-click="chooseCat5($index, item.id);"
+                        ng-repeat="item in category"
+                        title="{{item.name+': '+ item.count}}"></linki-tab-item>
+      </linki-tabs>
+    </div>
+    <div class="list padding5">
+      <label class="item item-input item-select" ng-if="item.ext_category == chCat" ng-repeat="item in products">
+        <div class="input-label">
+          <span ng-if="item.name != ''">
+            <i class="icon" ng-class="{'icon_checkbox_on': item.feeding_time, 'icon_checkbox_off':!item.feeding_time}"></i>
+            <span>{{item.name}}</span>
+          </span>
+        </div>
+        <select id="select_{{$index}}"
+          ng-model="item.feeding_time"
+          ng-options="time as time.name for time in ProductFeedingTime"
+          ng-change="onChange(item)"></select>
+      </label>
+      <button ng-click="addNew();" class="button no_bg green_color">+<div class="space"></div>Добавить еще продукт</button>
+    </div>
+  </ion-content>
+  <ion-footer-bar align-title="center" class="bar-stable bar bar-footer">
+    <button ng-click="goTo('master/step_4');" class="left_side pull-left button button-stable green_color">
+      <i class="icon ion-chevron-left"></i> НАЗАД
+    </button>
+    <progress-bar step="5" total-step="7"></progress-bar>
+    <button ng-click="save();" class="right_side pull-right button button-stable green_color">
+      ДАЛЕЕ <i class="icon ion-chevron-right"></i>
+    </button>
+  </ion-footer-bar>
+</ion-view>
+
+<script id="addOwnProduct.html" type="text/ng-template">
+  <ion-modal-view>
+    <ion-header-bar>
+      <div class="buttons">
+        <a class="button no_bg icon_color" ng-click="modal.hide();"><i class="icon ion-close"></i></a>
+      </div>
+      <h1 class="title">Свой продукт</h1>
+      <div class="buttons">
+        <a class="button no_bg icon_color uppercase" ng-click="addOwnProductComplete();">Добавить</a>
+      </div>
+    </ion-header-bar>
+    <ion-content>
+      <div class="row">
+        <div class="col-75">
+      <ion-md-input placeholder="Название продукта" id="own_product_name" type="text" name="name"
+         ng-keyup="search();"
+         highlight-color="energized" ng-model="data.name"></ion-md-input>
+        </div>
+        <div class="col-25 col-center">
+          <button class="green_color uppercase button" ng-click="viewProducts();">Список</button>
+        </div>
+      </div>
+      <br>
+      <div class="row">
+        <div class="col">
+          <div>
+            <div class="sub info">Категория продукта</div>
+            <div ng-click="viewCategories();">
+              <span ng-if="data.selectedCategory== null">Выбрать</span>
+              <span ng-if="data.selectedCategory != null">{{data.selectedCategory.name}}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <br>
+      <div class="row">
+        <div class="col">
+          <div class="sub info">Прием пищи</div>
+          <select
+            ng-model="data.time"
+            ng-options="time as time.name for time in ProductFeedingTime"></select>
+        </div>
+      </div>
+    </ion-content>
+  </ion-modal-view>
+</script>
+
+<script id="popupProductList.html" type="text/ng-template">
+  <ion-radio
+    ng-model="data.selectedProduct"
+    ng-repeat="item in product_list" ng-value="item">{{item.name}}</ion-radio>
+</script>
+
+<script id="popupCategoryList.html" type="text/ng-template">
+  <ion-radio ng-model="data.selectedCategory"
+    ng-repeat="item in category_list" ng-value="item">{{item.name}}</ion-radio>
+</script>

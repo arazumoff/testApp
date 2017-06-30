@@ -1,0 +1,23 @@
+<ion-view view-title="{{product.name}}">
+  <ion-content class='has-header padding'>
+    <ion-list>
+      <ion-item ng-click="openProdItem(item);" ng-class="{'old': dateNow > item.date}" ng-repeat="item in history">
+        <div class="nclear">
+          <div class="left_side">
+            {{item.date.toString("d MMMM")}}
+            <span ng-if="item.status" class="status_{{item.status}} status_icon"></span>
+            <span ng-if="item.comment" class="comment_icon"></span>
+          </div>
+          <div class="right_side">{{item.val}} г</div>
+        </div>
+        <div ng-if="oneProd.open == item" class="under">
+          <div ng-if="item.comment" class="comment_block">{{item.comment}}</div>
+          <div class="button-bar">
+            <a ng-click="changeStatus(item)" class="button">Статус</a>
+            <a class="button" href="#/app/products/{{product.id}}/comment/{{$index}}">Комментарий</a>
+          </div>
+        </div>
+      </ion-item>
+    </ion-list>
+  </ion-content>
+</ion-view>

@@ -1,0 +1,21 @@
+<ion-view view-title="Нормы">
+  <div class="bar bar-subheader bar-stable">
+    <label class="item item-input item-select">
+      <div class="input-label">Возраст</div>
+      <select ng-change="changeOld();" ng-model="sortOlder">
+        <option ng-repeat="item in olders track by item" value="{{item}}">{{item|declension:['месяц','ев','','а']}}</option>
+      </select>
+    </label>
+  </div>
+  <ion-content class='has-header has-subheader padding'>
+    <ion-list>
+      <ion-item ng-repeat="item in categoryNorm">
+        <div class="left_side">{{item.name}}</div>
+        <div class="right_side">{{item.amount}} г</div>
+      </ion-item>
+      <ion-item ng-if="productsSort.length == 0">
+        Продукты не найдены
+      </ion-item>
+    </ion-list>
+  </ion-content>
+</ion-view>

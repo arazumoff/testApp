@@ -1,0 +1,56 @@
+<ion-view cache-view="false">
+  <ion-nav-title>{{product.name}}</ion-nav-title>
+  <ion-content class="has-header">
+    <ion-list>
+      <ion-item ng-click="openProdItem(item);" ng-class="{'old': dateNow > item.date}" ng-repeat="item in history">
+        <div class="nclear">
+          <div class="left_side">
+            {{item.day}} {{item.month|ruMonth}}
+            <span class="icons">
+              <i ng-show="item.status != null" class="icon"
+                 ng-class="{
+                 'icon_status_bad':item.status == 1,
+                 'icon_status_unknow': item.status==2,
+                 'icon_status_new': item.status==3
+                 }"></i>
+              <span ng-if="item.comment" class="icon icon_ic_comment_gray"></span>
+            </span>
+          </div>
+          <div class="right_side">{{item.amount|floor}} г</div>
+        </div>
+        <div ng-if="oneProd.open == item" class="under" style="margin-top:10px">
+          <div ng-if="item.comment" class="comment_block">{{item.comment}}</div>
+          <div class="row">
+            <div class="col-50 text-center green_color" ng-click="setStatus($event, item)">
+                <i class="icon icon_status"></i>
+                Статус
+            </div>
+            <div class="col-50 text-center green_color" ui-sref="app.commentprod({prodId: product.id, normIndex: $index})">
+              <i class="icon icon_comment"></i>
+              Комментарий</a>
+            </div>
+          </div>
+        </div>
+      </ion-item>
+    </ion-list>
+    <div class="row row-center">
+      <div class="col col-60 col-offset-20">
+        <div class="empty_history" ng-show="!history.length">
+          <div class="empty_product_history">
+            Продукт не введен
+          </div>
+        </div>
+      </div>
+    </div>
+  </ion-content>
+</ion-view>
+
+<script id="statusTpl.html" type="text/ng-template">
+  <ion-list>
+    <ion-radio ng-click="selectStatus(1);">Реакция
+      <span class="icons"><i class="icon icon_status_bad"></i></span></ion-radio>
+    <ion-radio ng-click="selectStatus(2);">Сомнительный
+      <span class="icons"><i class="icon icon_status_unknow"></i></span></ion-radio>
+    <ion-radio ng-click="selectStatus(3);">Нормальный</ion-radio>
+  </ion-list>
+</script>

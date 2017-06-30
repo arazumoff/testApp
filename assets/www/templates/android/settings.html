@@ -1,0 +1,28 @@
+<ion-view view-title="Настройки">
+  <ion-content class='has-header settings'>
+    <div class="padding">
+      <div class="setting_title">Основные</div>
+      <ion-toggle ng-model="settings.reminders.enable" toggle-class="toggle-calm">Напоминания</ion-toggle>
+    </div>
+    <div class="hr"></div>
+    <div class="padding">
+      <div class="setting_title">Блоги</div>
+      <a href="" class="enter_blog uppercase green_color">войти</a>
+      <ion-toggle ng-model="settings.blog.notify" ng-click="">Уведомления из блогов</ion-toggle>
+      <div ng-if="settings.blog.notify">
+        <ion-checkbox ng-model="isChecked">О новом блоге</ion-checkbox>
+        <ion-checkbox ng-model="isChecked2">О комментарии к моему блогу</ion-checkbox>
+        <ion-checkbox ng-model="isChecked3">В блоге котором яучаствую</ion-checkbox>
+      </div>
+    </div>
+    <div class="hr"></div>
+    <div class="padding">
+      <div class="setting_title">Дополнительно</div>
+      <ion-list>
+        <ion-item>Обратная связь</ion-item>
+        <ion-item>Рассказать друзьям</ion-item>
+        <ion-item>Оставить отзыв</ion-item>
+      </ion-list>
+    </div>
+  </ion-content>
+</ion-view>

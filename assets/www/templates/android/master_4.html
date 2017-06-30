@@ -1,0 +1,31 @@
+<ion-view view-title="Данные о прикорме" cache-view="false" hide-back-button="true">
+  <ion-content class="has-header">
+    <p class="info padding">Вы начали прикорм и ввели в рацион какие-либо продукты?</p>
+    <div class="padding5">
+      <ion-list>
+        <ion-radio ng-model="user.feeding_exist" ng-value="0">Да</ion-radio>
+        <ion-radio ng-model="user.feeding_exist" ng-value="1">Нет</ion-radio>
+        <ion-item class="sub" ng-if="user.feeding_exist != 0">
+          Хотите начать прикорм?
+        </ion-item>
+        <ion-radio ng-if="user.feeding_exist != 0" ng-model="user.feeding_exist" ng-value="2">Хочу</ion-radio>
+        <ion-radio ng-if="user.feeding_exist != 0" ng-model="user.feeding_exist" ng-value="3">Не хочу</ion-radio>
+      </ion-list>
+    </div>
+  </ion-content>
+  <ion-footer-bar align-title="center" class="bar-stable bar bar-footer">
+    <button href="#/master/step_3" class="green_color left_side pull-left button button-stable">
+      <i class="icon ion-chevron-left"></i> НАЗАД
+    </button>
+    <progress-bar step="4" total-step="7"></progress-bar>
+    <button ng-click="saveAndGo('master/step_5');" ng-if="user.feeding_exist == 0" class="green_color right_side pull-right button button-stable">
+      ДАЛЕЕ <i class="icon ion-chevron-right"></i>
+    </button>
+    <button ng-click="saveAndGo('master/step_6');" ng-if="user.feeding_exist == 2" class="green_color right_side pull-right button button-stable">
+      ДАЛЕЕ <i class="icon ion-chevron-right"></i>
+    </button>
+    <button ng-if="user.feeding_exist == 3" ng-click="gofrom4ToMain()" class="green_color right_side pull-right button button-stable">
+      ДАЛЕЕ <i class="icon ion-chevron-right"></i>
+    </button>
+  </ion-footer-bar>
+</ion-view>

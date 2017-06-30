@@ -1,0 +1,39 @@
+<ion-view view-title="Выбор новых продуктов" cache-view="false" hide-back-button="true">
+  <ion-content class="has-header master6">
+    <p class="info padding">Отметьте новые продукты, которые вы планируете ввести и выберете желаемый прием пищи</p>
+    <div style="overflow: hidden;position: relative;clear:both;height:44px">
+      <linki-tabs>
+        <linki-tab-item ng-click="chooseCat5($index, item.id);" ng-repeat="item in category" title="{{item.name+': '+ item.count}}"></linki-tab-item>
+      </linki-tabs>
+    </div>
+
+    <div class="list padding5">
+      <label class="item item-input item-select" ng-if="item.ext_category == chCat" ng-repeat="item in products">
+        <div class="input-label">
+            <span ng-if="item.name != ''">
+              <i class="icon" ng-class="{
+              'icon_checkbox_on': item.feeding_time,
+              'icon_checkbox_off':!item.feeding_time}"></i>{{item.name}}
+            </span>
+        </div>
+        <select
+          ng-model="item.feeding_time"
+          ng-options="time as time.name for time in ProductFeedingTime"
+          ng-change="onChange6(item)">
+          <option value=""></option>
+        </select>
+      </label>
+      <button ng-click="addNew();"
+              class="button no_bg green_color">+<div class="space"></div>Добавить еще продукт</button>
+    </div>
+  </ion-content>
+  <ion-footer-bar align-title="center" class="bar-stable bar bar-footer">
+    <button ng-click="goTo('master/step_5');" class="left_side pull-left button button-stable green_color">
+      <i class="icon ion-chevron-left"></i> НАЗАД
+    </button>
+    <progress-bar step="6" total-step="7"></progress-bar>
+    <button ng-click="save6();" class="right_side pull-right button button-stable green_color">
+      ДАЛЕЕ <i class="icon ion-chevron-right"></i>
+    </button>
+  </ion-footer-bar>
+</ion-view>

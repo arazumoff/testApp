@@ -1,0 +1,24 @@
+<ion-view view-title="Комментарии">
+  <ion-content class='has-header padding'>
+      <ion-list>
+        <ion-item ng-repeat="comment in comments.comments.list">
+          <div class="aboutBaby nclear">
+            <div class="left_side">
+              <img class="img small" ng-src="{{comment.user.files}}">
+            </div>
+            <div class="left_side">
+              <div>{{comment.user.babyName}}</div>
+              <div>{{comment.date.toString("d MMMM yyyy")}}</div>
+            </div>
+          </div>
+          <div class="description">
+            {{comment.text}}
+          </div>
+        </ion-item>
+      </ion-list>
+  </ion-content>
+  <div class="bar bar-footer bar-stable">
+    <a href="#/app/blogs/comments/write/{{comments.id}}" class="title">Написать комментарий
+    </a>
+  </div> 
+</ion-view>

@@ -1,0 +1,14 @@
+<ion-view view-title="Период">
+	<ion-content class='has-header padding'>
+    <div class="hr"></div>
+		<label class="item item-input item-select">
+		    <div class="input-label">Период</div>
+		    <select ng-model="user.days_for_adding" ng-options="item.value as item.name for item in periods"></select>
+		</label>
+		<p class="info">Выберите период ввода новых продуктов. Новые   продукты будут введены в соответствии с выбранным периодом и   обозначены знаком play. Все новые продукты вводятся на протяжении 3х   дней маленькими порциями продукты будет считаться введенным после   того, как вы покормите им ребенка 3 раза.</p>
+
+	</ion-content>
+	<ion-footer-bar align-title="center" class="bar-stable bar bar-footer">
+		<a ng-click="gen();" href="" class="button button-full title button-stable">Сохранить</a>
+	</ion-footer-bar>
+</ion-view>

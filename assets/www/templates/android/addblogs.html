@@ -1,0 +1,17 @@
+<ion-view view-title="Публикация">
+  <ion-nav-buttons side="right">
+    <a class="button no_bg icon_color uppercase" ng-click="addBlog(name, title, text)">Создать</a>
+  </ion-nav-buttons>
+  <ion-content class='has-header'>
+    <label class="item item-input">
+      <input ng-model="title" type="text" placeholder="Заголовок темы">
+    </label>
+    <div class="hr"></div>
+    <label class="item item-input">
+      <textarea ng-model="text" placeholder="Текст комментария"></textarea>
+    </label>
+  </ion-content>
+  <fab-button target-id="scrollFabButtonTarget" ng-click="">
+    <i class="icon ion ion-android-image"></i>
+  </fab-button>
+</ion-view>

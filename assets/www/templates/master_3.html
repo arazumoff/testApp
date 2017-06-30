@@ -1,0 +1,41 @@
+<ion-view view-title="Время вскармливания" cache-view="false">
+  <ion-content class="has-header padding">
+    <p class="info">Скорректируйте  количество кормлений
+      и время кормления в соответствии
+      с потребностью ребенка. Если вы
+      не привязаны ко времени и количеству кормлений, то выберете вариант &quot;по требованию&quot;</p>
+
+    <div class="row">
+      <div class="gender">
+        <button ng-click="user.feeding_on_demand=false;$event.preventDefault();"
+                ng-class="{'active':!user.feeding_on_demand, '':user.feeding_on_demand}"
+                class="button button-full">По времени</button>
+        <button ng-click="user.feeding_on_demand=true;$event.preventDefault();"
+                ng-class="{'active':user.feeding_on_demand, '': !user.feeding_on_demand}"
+                class="button button-full">По требованию</button>
+      </div>
+    </div>
+    <ion-list ng-if="!user.feeding_on_demand">
+      <ion-item ng-repeat="item in feedTimes">
+        <div class="left_side">
+          <ion-checkbox ng-click="appendFeed(item);" ng-model="item.is_choose"></ion-checkbox>
+        </div>
+        <div class="left_side">
+          <input value="item.time|date:'HH:mm'"
+                 class="sub_inp_3"
+                 ng-class="{'green_color': item.is_choose,'':!item.is_choose}"
+                 ng-model="item.time" type="time">
+        </div>
+      </ion-item>
+    </ion-list>
+    <button ng-if="!user.feeding_on_demand" ng-click="add_feedTime();" class="button button-block button-positive">
+      добавить кормление
+    </button>
+
+  </ion-content>
+  <ion-footer-bar align-title="center" class="bar-stable bar bar-footer">
+    <a ng-click="saveGame();" href="#/master/step_4" class="button title button-full button-stable">
+      Продолжить
+    </a>
+  </ion-footer-bar>
+</ion-view>

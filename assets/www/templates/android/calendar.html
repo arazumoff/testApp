@@ -1,0 +1,37 @@
+<ion-view view-title="Календарь" hide-back-button="true">
+  <ion-nav-buttons side="left">
+    <button class="button button-icon icon ion-navicon" menu-toggle="primary"></button>
+  </ion-nav-buttons>
+  <ion-nav-buttons side="right">
+    <a class="button no_bg icon_color" href="#/app/main">СКРЫТЬ</a>
+  </ion-nav-buttons>
+  <ion-header-bar class="bar bar-subheader">
+    <button class="button no_bg icon_color" ng-click="changeMonth('p');">
+      <i class="icon ion-chevron-left"></i>
+    </button>
+    <h1 class="title">{{month.format('MM')|ruMonth2}} {{month.format('YYYY')}}</h1>
+    <button class="button no_bg icon_color" ng-click="changeMonth('n');">
+      <i class="icon ion-chevron-right"></i>
+    </button>
+  </ion-header-bar>
+  <ion-content class='has-header has-subheader'>
+    <div class="padding">
+      <calendar selected="day" month="month" class="calendar padding"></calendar>
+    </div>
+    <div class="hr"></div>
+    <div class="padding">
+      <div class="row">
+        <div class="col-10"><i class="status_1 status_icon"></i></div>
+        <div class="col-90">Продукты с реакцией (появилась аллергия)</div>
+      </div>
+      <div class="row">
+        <div class="col-10"><i class="status_2 status_icon"></i></div>
+        <div class="col-90">Возможно является аллергеном</div>
+      </div>
+      <div class="row">
+        <div class="col-10"><i class="status_3 status_icon"></i></div>
+        <div class="col-90">Новые продукты, которые вводятся впервые</div>
+      </div>
+    </div>
+  </ion-content>
+</ion-view>

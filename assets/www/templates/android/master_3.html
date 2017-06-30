@@ -1,0 +1,52 @@
+<ion-view view-title="Время вскармливания" cache-view="false" hide-back-button="true">
+  <ion-content class="has-header master3">
+    <p class="info padding">Скорректируйте количество кормлений и время кормления в соответствии с потребностью ребенка.
+      Если вы не привязаны ко времени и количеству кормлений, то выберете вариант “кормление по требованию”</p>
+    <div class="row" style="padding:0px 13px">
+      <div class="col col-50">
+        <button ng-click="user.feeding_on_demand=false;$event.preventDefault();"
+                ng-class="{'active':!user.feeding_on_demand, '':user.feeding_on_demand}"
+                class="button button-full btn_round">по времени</button>
+      </div>
+      <div class="col col-50">
+        <button ng-click="user.feeding_on_demand=true;$event.preventDefault();"
+                ng-class="{'active':user.feeding_on_demand, '': !user.feeding_on_demand}"
+                class="button button-full btn_round">по требованию</button>
+      </div>
+    </div>
+    <div class="hr"></div>
+    <ion-list ng-if="!user.feeding_on_demand" class="master3_list">
+      <ion-item ng-repeat="item in feedTimes">
+        <div class="left_side">
+          <i ng-click="appendFeed(item);"
+             class="icon" ng-class="{'icon_checkbox_on': item.is_choose,
+            'icon_checkbox_off':!item.is_choose}"></i>
+        </div>
+        <div class="left_side" ng-class="{'green_color1': item.is_choose,'':!item.is_choose}">
+          <input value="item.time|date:'HH:mm'"
+                 class="sub_inp_3"
+                 ng-class="{'green_color': item.is_choose,'':!item.is_choose}"
+                 ng-model="item.time" type="time">
+        </div>
+      </ion-item>
+    </ion-list>
+    <button ng-if="!user.feeding_on_demand" ng-click="add_feedTime();"
+            class="button no_bg green_color add_new">+<div class="space"></div>Добавить кормление</button>
+
+    <div class="row row-center">
+      <div ng-if="user.feeding_on_demand" class="info col text-center col-center">
+        Вы сможете отмечать факт кормления
+        в меню в нужное время
+      </div>
+    </div>
+
+  </ion-content>
+  <ion-footer-bar align-title="center" class="bar-stable bar bar-footer">
+    <button ng-click="saveAndGo('master/step_2');" class="left_side pull-left button button-stable green_color">
+      <i class="icon ion-chevron-left"></i> НАЗАД
+    </button>
+    <progress-bar step="3" total-step="7"></progress-bar>
+    <button ng-click="save3('master/step_4');"
+       class="right_side pull-right button button-stable green_color">ДАЛЕЕ <i class="icon ion-chevron-right"></i></button>
+  </ion-footer-bar>
+</ion-view>

@@ -1,0 +1,58 @@
+<ion-side-menus enable-menu-with-back-views="false" cache-view="false">
+  <ion-side-menu-content>
+    <ion-nav-bar class="bar-stable">
+      <ion-nav-back-button></ion-nav-back-button>
+      <ion-nav-buttons side="left">
+        <button class="button button-icon button-clear ion-navicon" menu-toggle="left"></button>
+      </ion-nav-buttons>
+    </ion-nav-bar>
+    <ion-nav-view name="menuContent"></ion-nav-view>
+  </ion-side-menu-content>
+
+  <ion-side-menu side="left">
+    <ion-header-bar class="bar-stable">
+      <div class="aboutBaby nclear">
+        <div>
+          <img class="img small" ng-class="{'': user.photo, 'default_avatar': !user.photo}" ng-src="{{user.photo}}">
+        </div>
+        <div>
+          <div class="name">{{user.name}}</div>
+          <div class="age">{{user.count_month|declension:['месяц','ев','','а']}}, {{user.count_days|declension:['д','ней','ень','ня']}}</div>
+        </div>
+      </div>
+    </ion-header-bar>
+    <ion-content scroll="false">
+      <ion-list>
+        <ion-item class="item-icon-left" menu-close href="#/app/main">
+          <i class="icon ico icon_calendar"></i>
+          Меню на день
+        </ion-item>
+        <ion-item class="item-icon-left" menu-close href="#/app/products">
+          <i class="icon ico icon_products"></i>
+          Продукты
+        </ion-item>
+        <ion-item class="item-icon-left" menu-close href="#/app/normals">
+          <i class="icon ico icon_norms"></i>
+           Нормы продуктов
+        </ion-item>
+        <ion-item class="item-icon-left" menu-close href="#/app/shopping">
+          <i class="icon ico icon_shop"></i>
+          Список покупок
+        </ion-item>
+        <ion-item class="item-icon-left" menu-close href="#/app/change">
+          <i class="icon ico icon_food"></i>
+          Изменить меню
+        </ion-item>
+        <ion-item class="item-icon-left" menu-close href="#/app/blogs">
+          <i class="icon ico icon_blogs"></i>
+          Блоги
+        </ion-item>
+        <div class="hr"></div>
+        <ion-item class="item-icon-left" menu-close href="#/app/settings">
+          <i class="icon ico icon_settings"></i>
+          Настройки
+        </ion-item>
+      </ion-list>
+    </ion-content>
+  </ion-side-menu>
+</ion-side-menus>

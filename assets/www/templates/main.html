@@ -1,0 +1,171 @@
+<ion-view view-title="{{day.toString('d MMMM')}}">
+  <ion-nav-buttons side="left">
+    <button class="button button-icon button-clear ion-navicon" menu-toggle="left"></button>
+    <button class="button" ng-click="changeDay('ye');">
+      <i class="icon ion-chevron-left"></i>
+    </button>
+  </ion-nav-buttons>
+  <ion-nav-buttons side="right">
+    <button ng-if="url == '/main'" class="button" ng-click="changeDay('tm');">
+      <i class="icon ion-chevron-right"></i>
+    </button>
+    <a class="button" href="#/app/calendar">
+      <i class="icon ion-calendar"></i>
+    </a>
+  </ion-nav-buttons>
+  <ion-content class='has-header has-subheader padding'>
+    <ion-list>
+      <div ng-repeat="itemGrp in times">
+        <div class="item item-divider">
+          {{itemGrp.name}}
+        </div>
+
+        <ion-item ng-repeat="item in itemGrp.items" ng-click="myValue=!myValue" ng-switch on="item.type">
+          <div ng-switch-when="1">
+            <span>Грудь</span>
+            <span class="right_side">{{item.value}}</span>
+            <div ng-hide="myValue != 1">
+              <div class="row">
+                <div class="col col-66">
+                  <button class="button button-positive">Левая</button>
+                  <button class="button button-positive">Правая</button>
+                </div>
+                <div class="col col-33">
+                  <a href="">Начать</a>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col col-33" ng-click="feedPopup($event, item);">
+                  <i class="icon ion-checkmark-circled"></i> комментарий</div>
+                <div class="col col-33" ng-click="changeProductPopup($event, item);">
+                  <i class="icon ion-checkmark-circled"></i> удалить</div>
+              </div>
+            </div>
+          </div>
+          <div ng-switch-when="2">
+            <span>Бутылочка</span>
+            <span class="right_side">{{item.value}}</span>
+            <div ng-hide="myValue != 1">
+              <div class="row">
+                <div class="col col-66">
+                  <button class="button button-positive">Левая</button>
+                  <button class="button button-positive">Правая</button>
+                </div>
+                <div class="col col-33">
+                  <a href="">Начать</a>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col col-33" ng-click="feedPopup($event, item);">
+                  <i class="icon ion-checkmark-circled"></i> комментарий</div>
+                <div class="col col-33" ng-click="changeProductPopup($event, item);">
+                  <i class="icon ion-checkmark-circled"></i> удалить</div>
+              </div>
+            </div>
+          </div>
+          <div ng-switch-when="3">
+            <span>Смешанное</span>
+          </div>
+          <div ng-switch-default>
+            <span ng-class="{'is_new': item.added == 'false'}">
+              {{item.name}} {{item.type}}
+              <i ng-show="item.status!=''" class="icon ion-happy-outline"></i>
+              <i ng-show="item.comment!=''" class="icon ion-chatbubble-working"></i>
+            </span>
+            <span class="right_side">{{item.amount}}г</span>
+            <div ng-hide="myValue != 1">
+              <div class="row">
+                <div class="col col-33" ng-click="feedPopup($event, item);">
+                  <i class="icon ion-checkmark-circled"></i> покормить</div>
+                <div class="col col-33" ng-click="changeProductPopup($event, item);">
+                  <i class="icon ion-checkmark-circled"></i> заменить</div>
+                <div class="col col-33" ng-click="setStatus($event, item);">
+                  <i class="icon ion-checkmark-circled"></i> статус</div>
+              </div>
+              <div class="row">
+                <div class="col col-33" ng-click="openCommentPopup($event, item);">
+                  <i class="icon ion-checkmark-circled"></i> комментарий</div>
+                <div class="col col-33" ui-sref="app.product-detail({prodId:item.id})">
+                  <i class="icon ion-checkmark-circled"></i> о продукте</a>
+                </div>
+                <div class="col col-33" ng-click="deleteItem($event, $index, item, itemGrp);">
+                  <i class="icon ion-checkmark-circled"></i> удалить</div>
+              </div>
+            </div>
+          </div>
+        </ion-item>
+      </div>
+    </ion-list>
+  </ion-content>
+</ion-view>
+
+<script id="feedPopup.html" type="text/ng-template">
+  <ion-modal-view>
+    <ion-content>
+      <h2 class="text-center"><i class="icon ion-checkmark-circled"></i></h2>
+      <p class="text-center">{{item.name}}</p>
+      <div>
+        <div class="left_side">
+          <a href="" ng-click="modal.hide();">Отмена</a>
+        </div>
+        <div class="right_side">
+          <a href="" ng-click="okFeed(value);">ОК</a>
+        </div>
+      </div>
+      <div class="clearfix">
+        <label class="item item-input item-select">
+          <div class="input-label">Количество грамм</div>
+          <select ng-model="value">
+            <option ng-repeat="iter in variants" value="{{iter}}">{{iter}} г.</option>
+          </select>
+        </label>
+      </div>
+    </ion-content>
+  </ion-modal-view>
+</script>
+
+<script id="addComment.html" type="text/ng-template">
+  <ion-modal-view>
+    <ion-header-bar>
+      <div class="buttons">
+        <a href="" ng-click="modal.hide();">Отмена</a>
+      </div>
+      <h1 class="title">Комментарий</h1>
+      <div class="buttons">
+        <a href="" ng-click="savePopupComment();" class="right_side">ОК</a>
+      </div>
+    </ion-header-bar>
+    <ion-content>
+      <textarea placeholder="Текст комментария" ng-model="item.comment" style="width: 100%;height: 100%"></textarea>
+    </ion-content>
+  </ion-modal-view>
+</script>
+
+<script id="changeProduct.html" type="text/ng-template">
+  <ion-modal-view>
+    <ion-content padding="true">
+      <h2 class="text-center"><i class="icon ion-arrow-swap"></i></h2>
+      <p class="text-center">Замена</p>
+      <div>
+        <div class="left_side">
+          <a href="" ng-click="modal.hide();">Отмена</a>
+        </div>
+        <div class="right_side">
+          <a href="" ng-click="">ОК</a>
+        </div>
+      </div>
+      <div class="clearfix">
+        <label class="item item-input item-select">
+          <div class="input-label">
+            Замена
+          </div>
+          <select>
+            <option>Blue</option>
+            <option selected>Green</option>
+            <option>Red</option>
+          </select>
+        </label>
+      </div>
+    </ion-content>
+  </ion-modal-view>
+</script>

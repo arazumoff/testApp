@@ -1,0 +1,58 @@
+<ion-view view-title="Анкета" cache-view="false" hide-back-button="true">
+  <ion-content class="has-header padding master1">
+      <div>
+        <div class="border">
+          <div class="default_border" ng-class="{'error': errors.photo == 1, '': errors.photo == 0}">
+            <div class="default_avatar" ng-if="!user.photo"></div>
+            <img ng-src="{{user.photo}}" ng-if="user.photo" class="img">
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="file_upload">
+          <button type="button"
+                  ng-class="{'red_color': errors.photo == 1,
+                  '': errors.photo==0}">сменить фото</button>
+          <input type="file" name="file" onchange="angular.element(this, $(this).parent()).scope().uploadedFile(this)">
+        </div>
+      </div>
+      <div class="row gender">
+        <div class="col col-50">
+          <button ng-click="user.sex= 0 ;$event.preventDefault();"
+                  ng-class="{'active': user.sex==0, '':user.sex != 0 && user.sex != undefined}"
+                  class="button button-full">мальчик</button>
+        </div>
+        <div class="col col-50">
+          <button ng-click="user.sex=1;$event.preventDefault();"
+                  ng-class="{'active':user.sex==1, '':user.sex != 1}"
+                  class="button button-full">девочка</button>
+        </div>
+      </div>
+
+      <ion-md-input placeholder="Имя ребёнка" type="text" name="name"
+        highlight-color="energized" ng-model="user.name" required></ion-md-input>
+      <p class="red_color" ng-if="errors.name == 1;">Обязательно укажите имя</p>
+
+      <div class="row bdate">
+        <div class="col-50">
+          <ion-md-input placeholder="Дата рождения" name="birthday" value="user.birthday|date:'dd.mm.yyyy'" ng-click="openDatePicker($event);"
+            highlight-color="energized" id="id-birthday" type="date" ng-model="user.birthday" required></ion-md-input>
+          <p class="red_color" ng-if="errors.birthday == 1;">Укажите дату</p>
+        </div>
+      </div>
+
+      <ion-md-input highlight-color="energized" name="email"
+        placeholder="Почта мамы" type="email" ng-model="user.email"></ion-md-input>
+      <p class="red_color" ng-show="Form.email.$invalid">Укажите почту</p>
+      <br>
+      <p class="info">Укажите свою почту для получинения самой актуальной информации о работе приложения</p>
+  </ion-content>
+  <ion-footer-bar align-title="center" class="bar bar-footer">
+    <progress-bar step="1" total-step="7"></progress-bar>
+    <button ng-click="tic();"
+      ng-class="{'green_color': user.sex != undefined && user.birthday != undefined && user.name != undefined}"
+      class="right_side button pull-right">
+      ДАЛЕЕ <i class="icon ion-chevron-right"></i>
+    </button>
+  </ion-footer-bar>
+</ion-view>

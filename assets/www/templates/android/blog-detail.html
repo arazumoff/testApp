@@ -1,0 +1,42 @@
+<ion-view view-title="Публикация">
+  <ion-nav-buttons side="right">
+    <a class="button no_bg icon_color" ng-if="blog.author.id == user.id">
+      <i class="icon ion-android-more-vertical"></i>
+    </a>
+    <a class="button no_bg icon_color" ng-if="blog.author.id != user.id" ng-click="share();">
+      <i class="icon ion-android-share-alt"></i>
+    </a>
+  </ion-nav-buttons>
+  <ion-content class="has-header padding blog-detail">
+    <div class="aboutBaby nclear">
+      <div class="left_side">
+        <img class="img small" ng-src="{{blog.author.files}}">
+      </div>
+      <div class="left_side">
+        <div class="name green_color">{{blog.author.babyName}}</div>
+        <div class="date">{{blog.date.toString("d MMMM yyyy")}}</div>
+      </div>
+    </div>
+    <div class="title">
+      {{blog.name}}
+    </div>
+    <div class="description">
+      {{blog.text}}
+    </div>
+    <div class="photo">
+      <img src="{{blog.photo}}">
+    </div>
+  </ion-content>
+  <div class="bar bar-footer bar-stable blog-footer">
+    <!--
+    <a class="button" href="#/app/blogs" ng-if="blog.author.id == user.id" ng-click="removeBlog(blog.id);">
+      <i class="icon ion-ios-trash"></i>
+    </a>-->
+    <a href="#/app/blogs/comments/{{blog.id}}" class="title count_comments left_side">{{blog.comments.counts|declension: ['Комментар','ев','ий','ия']}}
+    </a>
+    <!--
+    <a class="button" href="#/app/blogs/edit/{{blog.id}}" ng-if="blog.author.id == user.id">
+      <i class="icon ion-compose"></i>
+    </a>-->
+  </div>
+</ion-view>

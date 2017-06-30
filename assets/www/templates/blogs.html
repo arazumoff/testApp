@@ -1,0 +1,31 @@
+<ion-view view-title="Блоги">
+  <div class="bar bar-subheader bar-stable">
+    <select ng-change="updateBlogs();"
+            ng-options="item.filter as item.name for item in filters track by item.id" ng-model="filterBlog"></select>
+  </div>
+  <ion-content class='has-header has-subheader padding'>
+      <ion-list>
+        <ion-item ng-repeat="blog in blogs" href="#/app/blogs/{{blog.id}}">
+          <div class="aboutBaby nclear">
+            <div class="left_side">
+              <img class="img small" ng-src="{{blog.author.files}}">
+            </div>
+            <div class="left_side">
+              <div>{{blog.author.babyName}}</div>
+              <div>{{blog.name}}</div>
+            </div>
+          </div>
+          <div class="description">
+            {{sliceText(blog.text, 200)}}
+          </div>
+          <div class="blog_foot nclear">
+            <div class="left_side">{{blog.date.toString("d MMMM yyyy")}}</div>
+            <div class="right_side">
+              {{blog.comments.counts}}
+              <i class="icon ion-chatbubble-working"></i>
+            </div>
+          </div>
+        </ion-item>
+      </ion-list>
+  </ion-content>
+</ion-view>

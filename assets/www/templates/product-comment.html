@@ -1,0 +1,9 @@
+<ion-view view-title="Комментарий">
+  <ion-content class='has-header padding'>
+    <a href="#/app/products/{{product.id}}" class="button button-block button-stable">Отмена</a>
+    <label class="item item-input">
+      <textarea ng-model="product.history[histcom].comment" placeholder="Текст комментария"></textarea>
+    </label>
+    <a href="#/app/products/{{product.id}}" class="button button-block button-stable">Ок</a>
+  </ion-content>
+</ion-view>
